@@ -1,0 +1,8 @@
+class variableGeneral
+!!!128130.php!!!	__construct()
+        
+        $this->variableGeneral["rutaFramework"]="framework"; //Relativa al directorio principal de la aplicación        
+        $this->variableGeneral["rutaBiblioteca"]="BCK"; //Relativa a rutaFramework
+        $this->variableGeneral["rutaConfiguracion"]="configuracion"; //Relativa al directorio principal de la aplicación        
+!!!128258.php!!!	getVariableGeneral()
+        return $this->variableGeneral;

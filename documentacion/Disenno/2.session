@@ -1,0 +1,15 @@
+window_sizes 1600 799 375 1219 720 0
+diagrams
+  deploymentdiagram_ref 134530 // Ejemplo
+    975 480 100 4 0 0
+  active  classdiagram_ref 128002 // General
+    1219 720 100 4 0 0
+end
+show_stereotypes
+selected classdiagram_ref 128002 // General
+open
+  deploymentview_ref 128002 // siaud
+  classview_ref 128002 // siaud
+  componentview_ref 128002 // Componentes
+end
+end

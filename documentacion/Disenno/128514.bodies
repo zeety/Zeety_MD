@@ -1,0 +1,255 @@
+class ConectorBasicoDB
+!!!129922.php!!!	especificar_db(inout nombre_db : )
+		$this->db = $nombre_db;
+!!!130050.php!!!	especificar_usuario(inout usuario_db : )
+		$this->usuario = $usuario_db;
+!!!130178.php!!!	especificar_clave(inout clave_db : )
+		$this->clave = $clave_db;
+!!!130306.php!!!	especificar_servidor(inout servidor_db : )
+		$this->servidor = $servidor_db;
+!!!130434.php!!!	especificar_dbsys(inout sistema : )
+		$this->dbsys = $sistema;
+	
+!!!130562.php!!!	especificar_enlace(inout enlace : )
+		if(is_resource($enlace))
+		{
+			$this->enlace = $enlace;
+		}
+!!!130690.php!!!	obtener_enlace()
+		return $this->enlace;
+		
+!!!130818.php!!!	conectar_db()
+		switch($this->dbsys)
+		{
+			
+			case 'mysql':
+					
+				$this->enlace=mysql_connect($this->servidor, $this->usuario, $this->clave);
+				
+				if($this->enlace)
+				{
+					$base=mysql_select_db($this->db);	
+					if($base)
+					{
+						return $this->enlace;
+						
+					}
+					else
+					{
+						$this->error=mysql_errno();
+					}
+					
+								
+				}
+				else
+				{
+					$this->error = mysql_errno();	
+				}
+					
+		}
+!!!130946.php!!!	probar_conexion()
+		
+		if($this->enlace==TRUE)
+		{
+			return TRUE;
+		}
+		else
+		{
+			return FALSE;
+		}
+		
+		
+!!!131074.php!!!	logger(inout configuracion : , inout id_usuario : , inout evento : )
+		$this->cadena_sql = "INSERT INTO ";
+	 	$this->cadena_sql.= "".$configuracion["prefijo"]."logger ";
+	 	$this->cadena_sql.= "( ";
+	 	$this->cadena_sql.= "`id_usuario` ,";
+		$this->cadena_sql.= " `evento` , ";
+		$this->cadena_sql.= "`fecha`  ";
+		$this->cadena_sql.= ") ";
+		$this->cadena_sql.= "VALUES (";
+		$this->cadena_sql.= $id_usuario."," ;
+		$this->cadena_sql.= "'".$evento."'," ;
+		$this->cadena_sql.= "'".time()."'" ;
+		$this->cadena_sql.=")";
+		//echo $this->cadena_sql;
+	 	$this->ejecutar_acceso_db($this->cadena_sql); 
+		unset($this->db_sel);
+		return TRUE;	
+	
+!!!131202.php!!!	desconectar_db() : void
+		mysql_close($this->enlace);
+		
+!!!131330.php!!!	ejecutar_acceso_db(inout cadena_sql : string) : boolean
+		if(!mysql_query($cadena_sql,$this->enlace)) 
+		{
+			$this->error= mysql_errno();
+			return FALSE;
+		} 
+		else 
+		{
+			return TRUE;
+		}
+!!!131458.php!!!	obtener_error() : boolean
+		
+		return $this->error;
+	
+!!!131586.php!!!	registro_db(inout cadena_sql : string, inout numero : int) : boolean
+		if(!is_resource($this->enlace))
+		{
+			return FALSE;
+		}
+		
+		//echo $cadena_sql."<br>";
+		$busqueda=mysql_query($cadena_sql,$this->enlace);
+
+                //echo $busqueda."<br>";
+		
+		if($busqueda)
+		{
+			unset($this->registro);
+			@$this->campo = mysql_num_fields($busqueda);
+			@$this->conteo = mysql_num_rows($busqueda);
+			if($numero==0)
+			{
+				
+				$numero=$this->conteo;
+			}
+
+                        
+			for($j=0; $j<$numero; $j++)
+			{
+				$salida = mysql_fetch_array($busqueda);
+
+                                if(is_array($salida)){
+                                    if($j==0){
+                                        $this->keys=array_keys($salida);
+                                        $i=0;
+                                        foreach($this->keys as $clave=>$valor){
+                                            if(is_string($valor)){
+                                                $this->claves[$i++]=$valor;
+                                            }
+                                           //echo $clave."->".$valor."<br>";
+                                        }
+                                    }
+
+                                    for($un_campo=0; $un_campo<$this->campo; $un_campo++)
+                                    {
+                                            $this->registro[$j][$un_campo] = $salida[$un_campo];
+                                            $this->registro[$j][$this->claves[$un_campo]] = $salida[$un_campo];
+                                    }
+                                }
+			}
+			@mysql_free_result($busqueda);
+			return $this->conteo;
+		}
+		else
+		{
+			unset($this->registro);
+			$this->error =mysql_error();
+			return 0;
+		}
+!!!131714.php!!!	obtener_registro_db() : registro
+		if(isset($this->registro))
+		{
+			return $this->registro;
+		}
+!!!131842.php!!!	obtener_conteo_db() : int
+		return $this->conteo;
+	
+!!!131970.php!!!	ultimo_insertado()
+		return mysql_insert_id($this->enlace);	
+!!!132098.php!!!	transaccion(inout insert : , inout delete : ) : boolean
+	
+		$this->instrucciones=count($insert);
+		
+		for($contador=0;$contador<$this->instrucciones;$contador++)
+		{
+			/*echo $insert[$contador];*/
+			$acceso=$this->ejecutar_acceso_db($insert[$contador]);
+		
+			if(!$acceso)
+			{
+				
+				for($contador_2=0;$contador_2<$this->instrucciones;$contador_2++)
+				{
+					@$acceso=$this->ejecutar_acceso_db($delete[$contador_2]);
+					/*echo $delete[$contador_2]."<br>";*/
+					}
+				return FALSE;
+			
+				}
+			
+		}
+		return TRUE;
+	
+!!!132226.php!!!	dbms(inout configuracion : )
+		if(isset($configuracion['db_dns'])){
+			$this->servidor = $configuracion['db_dns'];		
+		}
+		
+		if(isset($configuracion['db_nombre'])){
+			$this->db = $configuracion['db_nombre'];
+		}
+		
+		if(isset($configuracion['db_usuario']))	{
+			$this->usuario = $configuracion['db_usuario'];		
+		}
+		
+		if(isset($configuracion['db_clave'])){
+			$this->clave = $configuracion['db_clave'];
+		}
+		
+		if(isset($configuracion['db_sys'])){
+			$this->dbsys = $configuracion['db_sys'];
+		}
+
+		$this->enlace=$this->conectar_db();
+
+!!!132354.php!!!	ejecutar_busqueda(inout cadena_sql : )
+		$this->registro_db($cadena_sql,0);
+		$registro=$this->obtener_registro_db();
+		return $registro;
+!!!132482.php!!!	vaciar_temporales(inout configuracion : , inout sesion : )
+		$this->esta_sesion=$sesion;
+		$this->cadena_sql="DELETE ";
+		$this->cadena_sql.="FROM ";
+		$this->cadena_sql.=$configuracion["prefijo"]."registrado_borrador ";
+		$this->cadena_sql.="WHERE ";
+		$this->cadena_sql.="identificador<".(time()-3600);
+		$this->ejecutar_acceso_db($this->cadena_sql);
+		
+!!!132610.php!!!	verificar_variables(inout variables : )
+		if(is_array($variables))
+		{
+			foreach ($variables as $key => $value) 
+			{
+				$variables[$key]=mysql_real_escape_string($value);
+			}
+		}
+		else
+		{
+			$variables=mysql_real_escape_string($variables);
+		}
+		
+		return $variables;
+!!!132738.php!!!	ejecutarAcceso(inout cadena_sql : , inout tipo : )
+		if(!is_resource($this->enlace))
+		{
+			return FALSE;
+		}
+		
+			
+
+		if($tipo=="busqueda")
+		{
+			$this->registro_db($cadena_sql,0);
+			$esteRegistro=$this->obtener_registro_db();
+			return $esteRegistro;
+
+		}
+		else
+		{
+			$resultado=$this->ejecutar_acceso_db($cadena_sql);
+			return $resultado;
+		}

@@ -1,0 +1,43 @@
+class Inicializador
+!!!129282.php!!!	__construct() : integer
+
+		$this->miConfigurador=new Configurador();
+		return 0;
+!!!129410.php!!!	iniciar()
+	
+	    $this->miConfigurador->variable();
+                
+                
+		$configuracion=$this->miConfigurador->getConfiguracion();
+
+		if(!isset($configuracion["instalado"]))
+		{
+			$this->instalarAplicativo();
+
+		}else{
+
+			$this->ingresar();
+		}
+!!!129538.php!!!	setMisVariables(inout variables : strting)
+		$this->misVariables=$variables;
+		$this->miConfigurador->setRutas($variables);		
+!!!129666.php!!!	ingresar()
+
+		/**
+		 * @global boolean $GLOBALS['autorizar']
+		 * @name $autorizar
+		 */
+		$GLOBALS["autorizado"]=TRUE;
+
+
+		require_once($configuracion["raiz_documento"].$configuracion["clases"]."/pagina.class.php");
+		require_once($configuracion["raiz_documento"].$configuracion["clases"]."/soporte.class.php");
+
+		$soporte=new soporte($configuracion);
+		$la_pagina=new pagina($configuracion);
+
+		return 0;
+!!!129794.php!!!	instalarAplicativo()
+		//TODO Elaborar el instalador del aplicativo
+		echo "<h1>EL APLICATIVO NO SE ENCUENTRA INSTALADO.</h1>";
+		return 0;

@@ -1,0 +1,577 @@
+format 74
+"configuracion" // siaud::framework::BCK::configuracion
+  revision 2
+  modified_by 2 "paulo"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  deploymentview 128514 "configuracion"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 128770 "Configurador.class"
+      stereotype "source"
+      php_src "<?php
+${definition}
+
+;
+
+?>
+"
+      associated_classes
+	class_ref 128258 // Configurador
+      end
+    end
+
+    artifact 128898 "index"
+      stereotype "source"
+      php_src "<?
+/**
+ * index.php
+ *
+ * Para tratar de implementar un log de los intentos de ingresos no permitidos a la aplicacion.
+ */
+
+
+
+// Listado de posibles fuentes para la dirección IP, en orden de prioridad
+$fuentes_ip = array(
+            	\"HTTP_X_FORWARDED_FOR\",
+            	\"HTTP_X_FORWARDED\",
+            	\"HTTP_FORWARDED_FOR\",
+            	\"HTTP_FORWARDED\",
+            	\"HTTP_X_COMING_FROM\",
+            	\"HTTP_COMING_FROM\",
+            	\"REMOTE_ADDR\",
+);
+
+foreach ($fuentes_ip as $fuentes_ip) {
+	// Si la fuente existe captura la IP
+	if (isset($_SERVER[$fuentes_ip])) {
+		$proxy_ip = $_SERVER[$fuentes_ip];
+		break;
+	}
+}
+
+$proxy_ip = (isset($proxy_ip)) ? $proxy_ip : @getenv(\"REMOTE_ADDR\");
+// Regresa la IP
+
+?>
+<html>
+<head>
+<title>Acceso no autorizado.</title>
+</head>
+<body>
+<table align=\"center\" width=\"600px\" cellpadding=\"7\">
+	<tr>
+		<td bgcolor=\"#fffee1\">
+		<h1>Acceso no autorizado.</h1>
+		</td>
+	</tr>
+	<tr>
+		<td>
+		<h3>Se ha creado un registro de acceso ilegal desde la
+		direcci&oacute;n: <b><? echo $proxy_ip ?></b>.</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>Si considera que esto es un error por favor comuniquese con el
+		administrador del sistema.</td>
+	</tr>
+	<tr>
+		<td style=\"font-size: 12;\"></td>
+	</tr>
+</table>
+</body>
+<html>"
+      associated_classes
+      end
+    end
+
+    artifact 129026 "Inicializador.class"
+      stereotype "source"
+      php_src "<?php
+/**
+ * Administra el inicio de la aplicacion.
+ * 
+ * @author	Paulo Cesar Coronado
+ * @version	1.0.0.1
+ * @package 	clases
+ * @copyright 	Universidad Distrital F.J.C
+ * @license	GPL Version 3.0 o posterior
+ * 
+ */
+
+require_once(\"Configurador.class.php\");
+
+${definition}
+
+;
+
+?>"
+      associated_classes
+	class_ref 128386 // Inicializador
+      end
+    end
+  end
+
+  classview 128130 "configuracion"
+    //class diagram settings
+    draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+    //collaboration diagram settings
+    show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+    //object diagram settings
+     write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+    //sequence diagram settings
+    show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+    //state diagram settings
+    package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+    show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+    //class settings
+    //activity diagram settings
+    package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+    show_infonote default drawing_language default show_stereotype_properties default
+    class 128258 "Configurador"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      comment "
+Configurador.class.php
+
+Encargado de rescatar las variables de configuracion globales,
+
+@author 	Paulo Cesar Coronado
+@version 	1.1.0.1
+@package 	Kixi
+@copyright 	Universidad Distrital Francisco Jose de Caldas - Grupo de Trabajo Academico GNU/Linux GLUD
+@license 	GPL Version 3 o posterior
+
+"
+      attribute 128514 "configuracion"
+	package explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Arreglo que contiene las variables de configuración globales para el aplicativo.
+Las variables se extraen de la base de datos de acuerdo a los datos de acceso declarados
+en config.inc.php.
+
+@var ${type}
+"
+      end
+
+      attribute 128642 "rutas"
+	package explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Rutas a los archivos de definición de clases que deben ser cargadas porque aún
+no se han rescatado las variables de configuración.
+@var ${type}
+"
+      end
+
+      attribute 128770 "fp"
+	package explicit_type "file"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+Puntero al archivo config.inc.php
+@var ${type}
+"
+      end
+
+      attribute 128898 "cripto"
+	package type class_ref 128642 // Encriptador
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+Objeto de la clase Encriptador se encarga de codificar/decodificar cadenas de texto.
+@var ${type}
+"
+      end
+
+      attribute 129026 "funcion"
+	package type class_ref 128770 // FuncionGeneral
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Objeto de la Clase FuncionGeneral, con funciones miembro generales que encapsulan funcionalidades
+básicas.
+@var ${type}
+"
+      end
+
+      attribute 129154 "conectorDB"
+	package type class_ref 128514 // ConectorBasicoDB
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Permite la conexión simple a una base de datos
+@var ${type}
+"
+      end
+
+      operation 128386 "__construct"
+	package explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 128514 "setRutas"
+	package explicit_return_type ""
+	nparams 1
+	  param inout name "variables" explicit_type ""
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 128642 "getConfiguracion"
+	package explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 128770 "variable"
+	package explicit_return_type ""
+	nparams 1
+	  param inout name "ruta" explicit_type ""
+	    defaultvalue "\"\""
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 128898 "abrirArchivoConfiguracion"
+	private explicit_return_type ""
+	nparams 1
+	  param inout name "ruta" explicit_type ""
+	    defaultvalue "\"\""
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 129026 "rescatarVariablesDB"
+	private explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 129154 "rescatarVariablesSesion"
+	private explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 128642 // <aggregation>
+	relation_ref 128258 // <aggregation>
+      end
+
+      classrelation 128770 // <aggregation>
+	relation 128386 o---
+	  a role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128770 // <aggregation>
+	  b role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128898 // <aggregation>
+      end
+
+      classrelation 129026 // <aggregation>
+	relation 128514 o---
+	  a role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 129026 // <aggregation>
+	  b role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 129154 // <aggregation>
+      end
+
+      classrelation 129282 // <aggregation>
+	relation 128642 o---
+	  a role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 129282 // <aggregation>
+	  b role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 129410 // <aggregation>
+      end
+    end
+
+    class 128386 "Inicializador"
+      visibility package 
+      cpp_decl ""
+      java_decl ""
+      php_decl "${comment}${final}${visibility}${abstract}class ${name}${extends}${implements} {
+${members}}
+"
+      python_2_2 python_decl ""
+      idl_decl ""
+      explicit_switch_type ""
+      
+      attribute 129282 "miConfigurador"
+	package type class_ref 128258 // Configurador
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Objeto de la clase configurador. Su atributo $configuracion contiene
+los valores necesarios para gestionar la aplicacion.
+@var ${type}
+"
+      end
+
+      attribute 129410 "miInstalador"
+	package explicit_type "unknown_type"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Objeto de la clase Instalador. Actua como controlador del modulo de
+instalación del framework/aplicativo
+@var ${type}
+"
+      end
+
+      attribute 129538 "misVariables"
+	package explicit_type "string"
+	cpp_decl ""
+	java_decl ""
+	php_decl "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	python_decl ""
+	idl_decl ""
+	comment "
+
+Ruta de acceso a los archivos, se utilizan porque aún no se ha rescatado las
+variables de configuración.
+
+@var ${type}
+"
+      end
+
+      operation 129282 "__construct"
+	package explicit_return_type "integer"
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${visibility}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+	comment "
+Contructor
+@param none
+@return ${type}
+"
+      end
+
+      operation 129410 "iniciar"
+	package explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 129538 "setMisVariables"
+	package explicit_return_type ""
+	nparams 1
+	  param inout name "variables" explicit_type "strting"
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${p0}${v0}${)}
+{
+  ${body}}
+"
+	
+	
+	comment "
+
+Asigna los valores a las variables que indican las rutas predeterminadas.
+@param ${t0} array $variables
+"
+      end
+
+      operation 129666 "ingresar"
+	private explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      operation 129794 "instalarAplicativo"
+	private explicit_return_type ""
+	nparams 0
+	
+	
+	preserve_php_body_indent php_def "  ${comment}${final}${visibility}${abstract}${static}function ${name}${(}${)}
+{
+  ${body}}
+"
+	
+	
+      end
+
+      classrelation 128386 // <aggregation>
+	relation_ref 128130 // <aggregation>
+      end
+
+      classrelation 128514 // <aggregation>
+	relation 128258 o---
+	  a role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128514 // <aggregation>
+	  b role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 128642 // <aggregation>
+      end
+
+      classrelation 136066 // <aggregation>
+	relation_ref 135170 // <aggregation>
+      end
+
+      classrelation 136194 // <aggregation>
+	relation 135298 o---
+	  a role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 136194 // <aggregation>
+	  b role_name "" private
+	    php "  ${comment}${visibility}${const}${static}${var}${name}${value};
+"
+	    classrelation_ref 136322 // <aggregation>
+      end
+    end
+  end
+end

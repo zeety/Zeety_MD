@@ -1,0 +1,154 @@
+format 74
+"configuracion" // siaud::configuracion
+  revision 1
+  modified_by 2 "paulo"
+  // class settings
+  //class diagram settings
+  draw_all_relations default hide_attributes default hide_operations default hide_getset_operations default show_members_full_definition default show_members_visibility default show_members_stereotype default show_members_context default show_members_multiplicity default show_members_initialization default show_attribute_modifiers default member_max_width 0 show_parameter_dir default show_parameter_name default package_name_in_tab default class_drawing_mode default drawing_language default show_context_mode default auto_label_position default show_relation_modifiers default show_relation_visibility default show_infonote default shadow default show_stereotype_properties default
+  //use case diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default class_drawing_mode default shadow default show_stereotype_properties default
+  //sequence diagram settings
+  show_full_operations_definition default write_horizontally default class_drawing_mode default drawing_language default draw_all_relations default shadow default show_stereotype_properties default show_class_context_mode default show_msg_context_mode default
+  //collaboration diagram settings
+  show_full_operations_definition default show_hierarchical_rank default write_horizontally default drawing_language default package_name_in_tab default show_context default show_msg_context default draw_all_relations default shadow default show_stereotype_properties default
+  //object diagram settings
+   write_horizontally default package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default show_stereotype_properties default
+  //component diagram settings
+  package_name_in_tab default show_context default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //deployment diagram settings
+  package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  //state diagram settings
+  package_name_in_tab default show_context default auto_label_position default write_trans_label_horizontally default show_trans_definition default draw_all_relations default shadow default
+  show_activities default region_horizontally default drawing_language default show_stereotype_properties default
+  //activity diagram settings
+  package_name_in_tab default show_context default show_opaque_action_definition default auto_label_position default write_flow_label_horizontally default draw_all_relations default shadow default
+  show_infonote default drawing_language default show_stereotype_properties default
+  
+  deploymentview 128130 "configuracion"
+    //deployment diagram settings
+    package_name_in_tab default show_context default write_horizontally default auto_label_position default draw_all_relations default shadow default
+    draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+    artifact 128258 "config.inc"
+      stereotype "source"
+      php_src "<? 
+/*
+=wWczlXb
+0N3boxWYj9Gb
+hJXd0NWdyR3cF5WZiV3a
+==Adv9mc
+sVGZyF2Z
+f5WZiV3a
+*/
+?>
+<?
+// Listado de posibles fuentes para la dirección IP, en orden de prioridad
+        	$fuentes_ip = array(
+            	\"HTTP_X_FORWARDED_FOR\",
+            	\"HTTP_X_FORWARDED\",
+            	\"HTTP_FORWARDED_FOR\",
+            	\"HTTP_FORWARDED\",
+            	\"HTTP_X_COMING_FROM\",
+            	\"HTTP_COMING_FROM\",
+            	\"REMOTE_ADDR\",
+        	);
+
+        	foreach ($fuentes_ip as $fuentes_ip) {
+            		// Si la fuente existe captura la IP
+            		if (isset($_SERVER[$fuentes_ip])) {
+            		    	$proxy_ip = $_SERVER[$fuentes_ip];
+            		    	break;
+            		}
+        	}
+
+        	$proxy_ip = (isset($proxy_ip)) ? $proxy_ip : @getenv(\"REMOTE_ADDR\");
+        	// Regresa la IP
+        
+?><html>
+<head>
+	<title>Acceso no autorizado.</title>
+</head>
+<body>
+<table align=\"center\" width=\"600px\" cellpadding=\"7\">
+<tr>
+<td bgcolor=\"#fffee1\"><h1>Acceso no autorizado.</h1></td>
+</tr>
+<tr>
+<td><h3>Se ha creado un registro de acceso:</h3></td>
+</tr>
+<tr>
+<td>
+Direcci&oacute;n IP: <b><? echo $proxy_ip ?></b><br>
+Hora de acceso ilegal:<b> <? echo date(\"d-m-Y h:m:s\",time())?></b><br>
+Navegador y sistema operativo utilizado:<b><?echo $_SERVER[\"HTTP_USER_AGENT\"]?></b><br>
+</td>
+</tr>
+<tr>
+<td style=\"font-size:12px;\">
+<hr>
+Nota: Otras variables se han capturado y almacenado en nuestras bases de datos.<br>
+</td>
+</tr>
+</table>
+</body>
+</html>"
+      associated_classes
+      end
+    end
+
+    artifact 128386 "index"
+      stereotype "source"
+      php_src "<?
+// Listado de posibles fuentes para la dirección IP, en orden de prioridad
+        	$fuentes_ip = array(
+            	\"HTTP_X_FORWARDED_FOR\",
+            	\"HTTP_X_FORWARDED\",
+            	\"HTTP_FORWARDED_FOR\",
+            	\"HTTP_FORWARDED\",
+            	\"HTTP_X_COMING_FROM\",
+            	\"HTTP_COMING_FROM\",
+            	\"REMOTE_ADDR\",
+        	);
+
+        	foreach ($fuentes_ip as $fuentes_ip) {
+            		// Si la fuente existe captura la IP
+            		if (isset($_SERVER[$fuentes_ip])) {
+            		    	$proxy_ip = $_SERVER[$fuentes_ip];
+            		    	break;
+            		}
+        	}
+
+        	$proxy_ip = (isset($proxy_ip)) ? $proxy_ip : @getenv(\"REMOTE_ADDR\");
+        	// Regresa la IP
+        
+?><html>
+<head>
+	<title>Acceso no autorizado.</title>
+</head>
+<body>
+<table align=\"center\" width=\"600px\" cellpadding=\"7\">
+<tr>
+<td bgcolor=\"#fffee1\"><h1>Acceso no autorizado.</h1></td>
+</tr>
+<tr>
+<td><h3>Se ha creado un registro de acceso ilegal desde la direcci&oacute;n: <b><? echo $proxy_ip ?></b>.</h3></td>
+</tr>
+<tr>
+<td>
+Si considera que esto es un error por favor comuniquese con el administrador del sistema.
+</td>
+</tr>
+<tr>
+<td style=\"font-size:12;\">
+</td>
+</tr>
+</table>
+</body>
+<html>
+"
+      associated_classes
+      end
+    end
+  end
+end

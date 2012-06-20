@@ -1,0 +1,40 @@
+class Encriptador
+!!!132866.php!!!	__construct()
+	
+	
+	
+!!!132994.php!!!	codificar_url(inout cadena : , inout configuracion : )
+		$cadena=base64_encode($cadena);
+		$cadena=strrev($cadena);
+		$cadena=$configuracion["enlace"]."=".$cadena;
+		return $cadena;
+	
+!!!133122.php!!!	decodificar_url(inout cadena : , inout configuracion : )
+		$cadena=strrev($cadena);
+		$cadena=base64_decode($cadena);
+		
+		parse_str($cadena,$matriz);
+		
+		foreach($_REQUEST as $clave => $valor) 
+		{
+			unset($_REQUEST[$clave]);
+		} 
+		
+		foreach($matriz as $clave=>$valor)
+		{
+			$_REQUEST[$clave]=$valor;			
+		}
+		
+		return TRUE;
+!!!133250.php!!!	codificar(inout cadena : , inout configuracion : )
+		$cadena=base64_encode($cadena);
+		$cadena=strrev($cadena);
+		return $cadena;
+	
+!!!133378.php!!!	decodificar(inout cadena : )
+		$cadena=strrev($cadena);
+		$cadena=base64_decode($cadena);
+		
+		return $cadena;
+	
+	

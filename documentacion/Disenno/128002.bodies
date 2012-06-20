@@ -1,0 +1,21 @@
+class Aplicacion
+!!!128002.php!!!	__construct()
+    
+        $GLOBALS["configuracion"] = TRUE;
+        $this->miVariable = new variableGeneral();
+        $this->variablesGenerales = $this->miVariable->getVariableGeneral();
+        
+        $rutaBiblioteca=$this->variablesGenerales["rutaFramework"]."/". $this->variablesGenerales["rutaBiblioteca"];
+        $rutaClasesConfiguracion=$rutaBiblioteca."/".$this->variablesGenerales["rutaConfiguracion"];
+        
+        /*
+         * Una vez que se han cargado las rutas del aplicativo se pueden incluir las clases principales.
+         */
+        
+        require_once($rutaClasesConfiguracion."/Inicializador.class.php");
+        
+        $this->miInicializador = new Inicializador();
+        
+        $this->miInicializador->setMisVariables($this->variablesGenerales);
+        
+        $this->miInicializador->iniciar();

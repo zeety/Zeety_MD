@@ -1,0 +1,53 @@
+format 74
+
+componentcanvas 129282 component_ref 128002 // AplicaciónNegocio
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  xyzwh 329 249 2000 155 57
+end
+componentcanvas 129410 component_ref 128130 // Sistema Operativo
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  xyzwh 330 469 2000 155 57
+end
+componentcanvas 129538 component_ref 128258 // DBMS
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  xyzwh 540 348 2000 155 57
+end
+componentcanvas 131842 component_ref 128386 // ServidorWeb
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  xyzwh 329 140 2000 155 57
+end
+componentcanvas 131970 component_ref 128514 // AgenteUsuario
+  draw_component_as_icon default show_component_req_prov default show_component_rea default show_stereotype_properties default
+  xyzwh 330 28 2000 155 57
+end
+simplerelationcanvas 130434 simplerelation_ref 128130
+  from ref 129282 z 2001 to ref 129410
+end
+simplerelationcanvas 131586 simplerelation_ref 128386
+  from ref 129282 z 2001 to ref 129538
+end
+simplerelationcanvas 131714 simplerelation_ref 128514
+  from ref 129538 z 2001 to ref 129410
+end
+simplerelationcanvas 132098 simplerelation_ref 128642
+  from ref 131970 z 2001 to ref 131842
+end
+simplerelationcanvas 132226 simplerelation_ref 128770
+  from ref 131842 z 2001 stereotype "<<tcp/ip>>" xyz 413 107 3000 to ref 131970
+end
+simplerelationcanvas 132354 simplerelation_ref 128898
+  from ref 131842 z 2001 to ref 129282
+end
+simplerelationcanvas 132482 simplerelation_ref 129026
+  from ref 129282 z 2001 to ref 131842
+end
+simplerelationcanvas 132610 simplerelation_ref 129154
+  from ref 129410 z 2001 to ref 129282
+end
+simplerelationcanvas 132738 simplerelation_ref 129282
+  from ref 129538 z 2001 to ref 129282
+end
+simplerelationcanvas 132994 simplerelation_ref 129538
+  from ref 129410 z 2001 to ref 129538
+end
+end

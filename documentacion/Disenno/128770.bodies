@@ -1,0 +1,232 @@
+class FuncionGeneral
+!!!133506.php!!!	rescatarValorSesion(inout configuracion : , inout tipo : )
+		if(!isset($this->sesion)){
+                    $this->abrirSesion($configuracion);
+                }
+		
+		//Rescatar el valor de la variable usuario de la sesion
+                if($tipo=="id_sesion"){
+                    $this->registro=$this->rescatarNumeroSesion($configuracion);
+                    return $this->registro;
+                }else{
+                    $this->registro=$this->sesion->rescatar_valor_sesion($configuracion,$tipo);
+                }
+		
+                
+		if($this->registro)
+		{
+			
+			return $this->registro[0][0];
+		}
+		else
+		{
+			return FALSE;
+		}
+	
+!!!133634.php!!!	rescatarNumeroSesion(inout configuracion : )
+		if(!isset($this->sesion)){
+                    $this->abrirSesion($configuracion);
+                }
+                $this->numeroSesion=$this->sesion->numero_sesion();
+                return $this->numeroSesion;
+
+!!!133762.php!!!	abrirSesion(inout configuracion : , inout nombre :  = "estructura")
+            include_once($configuracion["raiz_documento"].$configuracion["clases"]."/sesion.class.php");
+            $this->sesion=new sesiones($configuracion);
+
+            if(!isset($this->recurso[$nombre])){
+                    $this->conectarDB($configuracion);
+            }
+            
+            $this->sesion->especificar_enlace($this->recurso[$nombre]->obtener_enlace());
+
+
+            $this->esta_sesion=$this->sesion->numero_sesion();
+            
+            if (strlen($this->esta_sesion) != 32)
+            {
+                    return false;
+
+            }else{
+
+                return true;
+            }
+!!!133890.php!!!	actualizarSesion(inout configuracion : , inout nombre :  = "estructura")
+            if(!isset($this->sesion)){
+                    if(!$this->abrirSesion($configuracion)){
+                        echo "Opsss!!!. Imposible abrir una sesi&oacute;n de Trabajo";
+                        exit;
+                    }
+                }
+
+            if(!isset($this->recurso[$nombre])){
+                    $this->conectarDB($configuracion);
+            }
+
+            $this->sesion->especificar_enlace($this->recurso[$nombre]->obtener_enlace());
+
+
+            $resultado=$this->sesion->actualizarSesion($configuracion);
+
+            return false;
+
+!!!134018.php!!!	limpiarSesion(inout configuracion : )
+            if(!isset($this->sesion)){
+                    if(!$this->abrirSesion($configuracion)){
+                        echo "Opsss!!!. Imposible abrir una sesi&oacute;n de Trabajo";
+                        exit;
+                    }
+                }
+            $this->sesion->borrar_sesion_expirada($configuracion);
+            $this->sesion->terminar_sesion($configuracion,$this->esta_sesion);
+
+            return true;
+!!!134146.php!!!	revisarFormulario(inout excluir :  = "")
+//		foreach($_REQUEST as $clave=>$valor){
+//                    echo $clave."--->".$valor."<br>";
+//                }
+                
+
+                //Evitar que se ingrese codigo HTML y PHP en las peticiones
+                if($excluir!=""){
+                    $variables=explode("|",$excluir);
+                }else{
+                    $variables[0]="";
+                }
+
+                foreach ($_REQUEST as $clave => $valor)
+		{
+			if(!in_array($clave,$variables)){
+                            
+                            $_REQUEST[$clave]= strip_tags($valor);
+
+                        }
+		}
+!!!134274.php!!!	cargarArchivoServidor(inout configuracion : , inout parametro : )
+		@set_time_limit (0);
+		//Cargar el documento en el servidor
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/subir_archivo.class.php");
+		
+		$subir = new subir_archivo();
+		$subir->directorio_carga= $parametro["directorio"];
+		$subir->nombre_campo=$parametro["nombreCampo"];
+		$subir->tipos_permitidos= explode("|",$parametro["tipoArchivo"]);
+			
+		
+			
+			
+		// Maximo tamanno permitido
+		//$subir->tamanno_maximo=5000000;
+			
+		$subir->especial= "[[:space:]]|[\"\*\\\'\%\$\&\@\<\>]";
+				
+		$subir->unico=TRUE;
+		$subir->permisos=0777;
+		
+		$resultado=$subir->cargar();
+
+                
+			
+		if($resultado==false)
+		{
+			$this->errorCarga["noCarga"]="El archivo no pudo ser cargado en el servidor.";
+                        return false;
+		}
+		else
+		{
+			//guardar datos de la carga
+			if(isset($subir->log["nombre_archivo"][0]))
+			{
+				$cargar["nombreArchivo"]=$subir->log["nombre_archivo"][0];
+			}
+			
+			if(isset($subir->log["mi_archivo"][0]))
+			{
+				$cargar["nombreInterno"]=$subir->log["mi_archivo"][0];
+			}
+			//Obtener direccion IP
+			$fuentes_ip = array(
+			"HTTP_X_FORWARDED_FOR",
+			"HTTP_X_FORWARDED",
+			"HTTP_FORWARDED_FOR",
+			"HTTP_FORWARDED",
+			"HTTP_X_COMING_FROM",
+			"HTTP_COMING_FROM",
+			"REMOTE_ADDR",
+			);
+	
+			foreach ($fuentes_ip as $fuentes_ip) 
+			{
+				// Si la fuente existe captura la IP
+				if (isset($_SERVER[$fuentes_ip])) {
+					$proxy_ip = $_SERVER[$fuentes_ip];
+					break;
+				}
+			}
+	
+			$cargar["ip"] = (isset($proxy_ip)) ? $proxy_ip : @getenv("REMOTE_ADDR");
+                        return $cargar;
+		}
+			
+	
+!!!134402.php!!!	conectarDB(inout configuracion : , inout nombre :  = "")
+
+		include_once($configuracion["raiz_documento"].$configuracion["clases"]."/dbConexion.class.php");
+
+		$this->conexion=new dbConexion($configuracion);
+
+                if($nombre==""){
+                    $nombre="estructura";
+                }
+
+                $this->recurso[$nombre]=$this->conexion->recursodb($configuracion,$nombre);
+                $this->recurso[$nombre]->conectar_db();
+                return true;
+
+!!!134530.php!!!	verificarVariables(inout configuracion : , inout valor : , inout nombre :  = "estructura")
+                if(!isset($this->recurso[$nombre])){
+                    $this->conectarDB($configuracion,$nombre);
+                }
+                $valor=$this->recurso[$nombre]->verificar_variables($valor);
+                return $valor;
+!!!134658.php!!!	ejecutarSQL(inout configuracion : , inout cadena_sql : , inout tipo :  = "busqueda", inout nombre :  = "estructura")
+
+                //Para manejar varias conexiones a bases de datos, los recursos se guardan en una matriz
+                if(!isset($this->recurso[$nombre])){
+                    $this->conectarDB($configuracion,$nombre);
+                }
+
+                $this->resultado=$this->recurso[$nombre]->ejecutarAcceso($configuracion,$cadena_sql,$tipo);
+
+                if($this->resultado==false){
+                        if($configuracion["debug_mode"]==1){
+                            echo "<h1>Oopss!!!!</h1>DB Transaction check error!!!<br>";
+                            echo $cadena_sql."<br>";
+                            echo $tipo."<br>";
+                            echo "El error reportado es: ".$this->recurso[$nombre]->obtener_error();
+
+                        }
+                    }
+                    
+                return $this->resultado;
+!!!134786.php!!!	totalRegistros(inout configuracion : , inout nombre :  = "estructura")
+		return $this->recurso[$nombre]->obtener_conteo_db();
+!!!134914.php!!!	ultimoInsertado(inout configuracion : , inout nombre :  = "estructura")
+		return $this->recurso[$nombre]->ultimo_insertado();
+!!!135042.php!!!	totalRegistrosAfectados(inout configuracion : , inout nombre :  = "estructura")
+		return $this->recurso[$nombre]->registros_afectados();
+!!!135170.php!!!	mensaje_error(inout configuracion : , inout atributos : )
+?>
+	<link rel='stylesheet' type='text/css' href='<? echo $configuracion["host"].$configuracion["site"].$configuracion["estilo"]."/basico/estiloGeneral.php" ?>' />
+        <div class="marcoMensajeSolo">
+            <div class="menuLateral">
+                <div class="encabezadoMensaje">
+                        <img src="<? echo $configuracion["host"].$configuracion["site"].$configuracion["grafico"]?>/importante.png" border="0">
+                        <br><span class="texto_negrita"><?$atributos["mensajeErrorTitulo"]?></span>
+
+                </div>
+                <div class="mensajeSoloCuerpo">
+                    <?$atributos["mensajeErrorCuerpo"]?>
+                </div>
+            </div>
+        </div><?
